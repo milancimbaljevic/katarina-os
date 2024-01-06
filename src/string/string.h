@@ -1,12 +1,14 @@
 #pragma once
 
-#define MAX_STRING_SIZE 20
+#define MAX_STRING_SIZE 200
 
 class string{
 private:
     char str[MAX_STRING_SIZE+1];
     int length = 0;
 public:
+    string() = default;
+
     string(const char* _str){
         int len = 0;
         const char* temp = _str;
@@ -21,11 +23,11 @@ public:
         str[i] = '\0';
     }
 
-    int size(){
+    int size() const {
         return length;
     }
 
-    char* getCharPointer(){
+    const char* getCharPointer() const {
         return str;
     }
 };
