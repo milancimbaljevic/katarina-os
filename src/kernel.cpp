@@ -2,6 +2,7 @@
 #include <stddef.h>
 
 #include "kernel.h"
+#include "string/string.h"
 
 uint16_t *video_mem = 0;
 int terminal_col = 0;
@@ -60,8 +61,10 @@ void kernel_main()
 {
     terminal_initialize();
 
-    print("Cao iz C++", 11);
+    // string str1 = "Caoooo\nsta se radii";
+    // print(str1.getCharPointer(), str1.size());
 
+    while(1) {}
 }
 
 
