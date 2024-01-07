@@ -71,6 +71,14 @@ void kernel_main()
         print(kernel_heap.getErrorMsg().getCharPointer(), kernel_heap.getErrorMsg().size());
     }
 
+    char* str1 = (char*) kernel_heap.getRetVal().malloc(8);
+    str1[0] = 'P'; str1[1] = 'o'; str1[2] = 'z'; str1[3] = 'd'; str1[4] = 'r'; str1[5] = 'a'; str1[6] = 'v'; str1[7] = '\0';
+    
+    char* str2 = (char*) kernel_heap.getRetVal().malloc(8);
+    str2[0] = '\n'; str2[1] = 'o'; str2[2] = 'z'; str2[3] = 'd'; str2[4] = 'r'; str2[5] = 'a'; str2[6] = 'v'; str2[7] = '\0';
+
+    print(str1, 8);
+    print(str2, 8);
 
     while(1) {}
 }
