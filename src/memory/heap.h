@@ -139,7 +139,6 @@ public:
         void *return_address = (void *)((size_t)start_address + (size_t)start_block * block_size);
 
         // mark blocks as taken
-
         entries_table[start_block].is_first = true;
         for (size_t i = start_block; i < start_block + size_in_blocks; i++)
         {
