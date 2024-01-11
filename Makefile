@@ -30,4 +30,4 @@ clean:
 	rm -rf ./build/kernelfull.o
 
 run:
-	qemu-system-i386 -hda ./bin/os.bin
+	qemu-system-i386 -hda ./bin/os.bin -debugcon stdio

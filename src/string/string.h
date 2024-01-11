@@ -18,12 +18,15 @@ struct StringIterator
         ++char_ptr; // (*this)++
         return temp;
     }
-    friend bool operator==(const StringIterator& it1, const StringIterator& it2){
+    friend bool operator==(const StringIterator &it1, const StringIterator &it2)
+    {
         return it1.char_ptr == it2.char_ptr;
     }
-    friend bool operator!=(const StringIterator& it1, const StringIterator& it2){
+    friend bool operator!=(const StringIterator &it1, const StringIterator &it2)
+    {
         return it1.char_ptr != it2.char_ptr;
     }
+
 private:
     char *char_ptr;
 };
@@ -37,7 +40,8 @@ private:
 public:
     string() = default;
 
-    string(const char c){
+    string(const char &c)
+    {
         str[0] = c;
         str[1] = '\0';
         length = 1;
@@ -84,16 +88,39 @@ public:
         return new_string;
     }
 
-    StringIterator begin(){
+    char operator[](int i)
+    {
+        return str[i];
+    }
+
+    string substr(int start_index, int number_of_chars)
+    {
+        int i = start_index;
+        string res;
+        while (i < start_index + number_of_chars && i < length)
+        {
+            res = res + string(str[i++]);
+        }
+        return res;
+    }
+
+    string reverse()
+    {
+        string res;
+        for (int i = length - 1; i >= 0; i--)
+        {
+            res = res + str[i];
+        }
+        return res;
+    }
+
+    StringIterator begin()
+    {
         return StringIterator(str);
     }
 
-    StringIterator end(){
+    StringIterator end()
+    {
         return StringIterator(&str[MAX_STRING_SIZE]);
     }
-
-    // template <typename... Args>
-    // string printf(string str, Args... params)
-    // {
-    // }
 };

@@ -4,6 +4,8 @@
 #include "kernel.h"
 #include "string/string.h"
 #include "memory/heap.h"
+#include "io/sys_io.h"
+#include "string/StringBuilder.h"
 
 uint16_t *video_mem = 0;
 int terminal_col = 0;
@@ -65,35 +67,46 @@ void kernel_main()
     // string str1 = "Caoooo\nsta se radii";
     // print(str1.getCharPointer(), str1.size());
 
-    ErrorOr<Heap> kernel_heap = Heap::createHeap((void*) 0x01000000, (void*) (0x01000000 + 104857600), 4096, (Heap::HEAP_BLOCK_TABLE_ENTRY*) 0x00007E00, 104857600/4096);
+    ErrorOr<Heap> kernel_heap = Heap::createHeap((void *)0x01000000, (void *)(0x01000000 + 104857600), 4096, (Heap::HEAP_BLOCK_TABLE_ENTRY *)0x00007E00, 104857600 / 4096);
 
-    if(kernel_heap.isError()){
+    if (kernel_heap.isError())
+    {
         print(kernel_heap.getErrorMsg().getCharPointer(), kernel_heap.getErrorMsg().size());
     }
 
     // char* str1 = (char*) kernel_heap.getRetVal().malloc(8);
     // str1[0] = 'P'; str1[1] = 'o'; str1[2] = 'z'; str1[3] = 'd'; str1[4] = 'r'; str1[5] = 'a'; str1[6] = 'v'; str1[7] = '\0';
-    
+
     // char* str2 = (char*) kernel_heap.getRetVal().malloc(8);
     // str2[0] = '\n'; str2[1] = 'o'; str2[2] = 'z'; str2[3] = 'd'; str2[4] = 'r'; str2[5] = 'a'; str2[6] = 'v'; str2[7] = '\0';
 
     // print(str1, 8);
     // print(str2, 8);
 
-    string str1 = "Ja sam";
-    string str2 = " Milan\n";
-    string str3 = str1 + str2;
+    // string str1 = "Ja sam";
+    // string str2 = " Milan";
+    // string str3 = str1 + str2;
 
-    print(str3.getCharPointer(), str3.size()); 
+    // char x = (char)(str3.size() + '0');
+    // print(&x, 1);
+    // print(str3.substr(7,5).getCharPointer(), 5);
+    // print(str3.getCharPointer(), str3.size());
 
-    for(char& c: str3){
-        print(&c, 1);
-        print("\n", 1);
+    int i1 = 25;
+    int i2 = -32;
+    string str4 = StringBuilder::FormatString("Cao {} ja sam {}", i1, i2);
+
+    print(str4.getCharPointer(), str4.size());
+    //print("Marko",5);
+
+    // for(char& c: str3){
+    //     print(&c, 1);
+    //     print("\n", 1);
+    // }
+
+    outb('A', 0xe9);
+
+    while (1)
+    {
     }
-
-    while(1) {}
 }
-
-
-
-
