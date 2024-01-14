@@ -47,17 +47,15 @@ void kernel_main()
     // string str4 = StringBuilder::FormatString("Cao {b} ja sam {}", i1, i2);
 
     float x = 8.5;
-    FloatInfo fi = Float::get_float_info(x);
-    FloatParts fp = Float::get_float_parts(fi);
+    FloatParts fp = Float::get_float_parts(x);
 
     // unsigned int fpart = (fi.mantissa << 9) << fp.displacment;
 
     string str5 = StringBuilder::FormatString(
-        "sign: {b} \ndisplacment: {} \nwhole_part: {}\nfractional_part : {} \npow_test: {}", 
-                         fp.sign,
-                         fp.displacment, fp.whole_part, fp.fractional_part, pow(5,0));
+        "sign: {b} \ndisplacment: {} \nwhole_part: {}\nfractional_part : {} \npow_test: {}",
+        fp.sign,
+        fp.displacment, fp.whole_part, 1, (float) 0.0012);
     print(str5.getCharPointer(), str5.size());
-
 
     // print(str4.getCharPointer(), str4.size());
     // print("Marko",5);

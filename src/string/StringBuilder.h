@@ -1,7 +1,7 @@
 #pragma once
 
 #include "string.h"
-//#include "utils/float.h"
+#include "math/math.h"
 
 class StringBuilder
 {
@@ -53,13 +53,10 @@ public:
         }
     }
 
-    static string to_string(float num){
-        return "";
-    }
-
     static string to_string(unsigned int num)
     {
-        if(num == 0) return '0';
+        if (num == 0)
+            return '0';
 
         string res;
         while (num != 0)
@@ -74,7 +71,8 @@ public:
 
     static string to_string(int _num)
     {
-        if(_num == 0) return '0';
+        if (_num == 0)
+            return '0';
 
         int num = _num > 0 ? _num : -_num;
 
@@ -168,11 +166,50 @@ public:
         return to_string_binary((char)num);
     }
 
-    // static string to_string_binary(float num)
-    // {
-    //     ufloat u1;
-    //     u1.f = num;
+    static string to_string_binary(float num)
+    {
+        ufloat uf;
+        uf.f = num;
+        return to_string_binary(uf.u);
+    }
 
-    //     return to_string_binary(u1.u);
-    // }
+    static string to_string(float value)
+    {
+        const int c_maxDigits = 6;
+
+        string decimalDigits = "";
+        int numDigits = 0;
+        int exponent = 0;
+
+        if(value < 0) {
+            decimalDigits = decimalDigits + '-';
+            value *= -1;
+        }
+
+        exponent = log10(value);
+
+        // Scale the input value such that the first digit is in the ones place
+        // (e.g. 122.5 would become 1.225).
+        value = value / (float) pow(10, exponent);
+
+        // while there is a non-zero value to print and we have room in the buffer
+        while (value > 0.0 && numDigits < c_maxDigits)
+        {
+            if(numDigits == exponent + 1) decimalDigits = decimalDigits + '.';
+            // Output the current digit.
+            float digit = floor(value);
+            decimalDigits = decimalDigits + string('0' + (char)digit); // convert to an ASCII character
+            ++numDigits;
+
+            // Compute the remainder by subtracting the current digit
+            // (e.g. 1.225 would becom 0.225)
+            value -= digit;
+
+            // Scale the next digit into the ones place.
+            // (e.g. 0.225 would becom 2.25)
+            value *= 10.0;
+        }
+
+        return decimalDigits;
+    }
 };
