@@ -6,59 +6,9 @@
 #include "memory/heap.h"
 #include "io/sys_io.h"
 #include "string/StringBuilder.h"
-
-uint16_t *video_mem = 0;
-int terminal_col = 0;
-int terminal_row = 0;
-
-uint16_t terminal_make_char(char c, char color)
-{
-    return (color << 8) | c;
-}
-
-void terminal_put_char(int x, int y, char c, char color)
-{
-    video_mem[y * VGA_WIDTH + x] = terminal_make_char(c, color);
-}
-
-void terminal_write_char(char c, char color)
-{
-    if (c == '\n')
-    {
-        terminal_row++;
-        terminal_col = 0;
-        return;
-    }
-
-    terminal_put_char(terminal_col, terminal_row, c, color);
-    terminal_col++;
-    if (terminal_col >= VGA_WIDTH)
-    {
-        terminal_col = 0;
-        terminal_row += 1;
-    }
-}
-
-void terminal_initialize()
-{
-    video_mem = (uint16_t *)(0xB8000);
-    for (int y = 0; y < VGA_HEGHT; y++)
-    {
-        for (int x = 0; x < VGA_WIDTH; x++)
-        {
-            terminal_put_char(x, y, ' ', 0);
-        }
-    }
-}
-
-void print(const char *str, size_t len)
-{
-    size_t i = 0;
-    while (i < len)
-    {
-        terminal_write_char(str[i++], 15);
-    }
-}
+#include "utils/float.h"
+#include "math/math.h"
+#include "print.h"
 
 void kernel_main()
 {
@@ -92,12 +42,25 @@ void kernel_main()
     // print(str3.substr(7,5).getCharPointer(), 5);
     // print(str3.getCharPointer(), str3.size());
 
-    int i1 = 25;
-    int i2 = -32;
-    string str4 = StringBuilder::FormatString("Cao {} ja sam {}", i1, i2);
+    // char i1 = -12;
+    // int i2 = -32;
+    // string str4 = StringBuilder::FormatString("Cao {b} ja sam {}", i1, i2);
 
-    print(str4.getCharPointer(), str4.size());
-    //print("Marko",5);
+    float x = 8.5;
+    FloatInfo fi = Float::get_float_info(x);
+    FloatParts fp = Float::get_float_parts(fi);
+
+    // unsigned int fpart = (fi.mantissa << 9) << fp.displacment;
+
+    string str5 = StringBuilder::FormatString(
+        "sign: {b} \ndisplacment: {} \nwhole_part: {}\nfractional_part : {} \npow_test: {}", 
+                         fp.sign,
+                         fp.displacment, fp.whole_part, fp.fractional_part, pow(5,0));
+    print(str5.getCharPointer(), str5.size());
+
+
+    // print(str4.getCharPointer(), str4.size());
+    // print("Marko",5);
 
     // for(char& c: str3){
     //     print(&c, 1);
