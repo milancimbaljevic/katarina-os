@@ -173,6 +173,18 @@ public:
         return to_string_binary(uf.u);
     }
 
+    static string to_string_binary(double num)
+    {
+        // FIXME: this is bad
+        return to_string_binary((float)num);
+    }
+
+    static string to_string(double value)
+    {
+        // FIXME: this is bad
+        return to_string((float)value);
+    }
+
     static string to_string(float value)
     {
         const int c_maxDigits = 6;
@@ -181,7 +193,8 @@ public:
         int numDigits = 0;
         int exponent = 0;
 
-        if(value < 0) {
+        if (value < 0)
+        {
             decimalDigits = decimalDigits + '-';
             value *= -1;
         }
@@ -190,12 +203,13 @@ public:
 
         // Scale the input value such that the first digit is in the ones place
         // (e.g. 122.5 would become 1.225).
-        value = value / (float) pow(10, exponent);
+        value = value / (float)pow(10, exponent);
 
         // while there is a non-zero value to print and we have room in the buffer
         while (value > 0.0 && numDigits < c_maxDigits)
         {
-            if(numDigits == exponent + 1) decimalDigits = decimalDigits + '.';
+            if (numDigits == exponent + 1)
+                decimalDigits = decimalDigits + '.';
             // Output the current digit.
             float digit = floor(value);
             decimalDigits = decimalDigits + string('0' + (char)digit); // convert to an ASCII character

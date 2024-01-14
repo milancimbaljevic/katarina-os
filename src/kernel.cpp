@@ -54,7 +54,7 @@ void kernel_main()
     string str5 = StringBuilder::FormatString(
         "sign: {b} \ndisplacment: {} \nwhole_part: {}\nfractional_part : {} \npow_test: {}",
         fp.sign,
-        fp.displacment, fp.whole_part, 1, (float) 0.0012);
+        fp.displacment, fp.whole_part, 1, 0.0012);
     print(str5.getCharPointer(), str5.size());
 
     // print(str4.getCharPointer(), str4.size());

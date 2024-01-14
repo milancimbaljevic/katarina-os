@@ -30,7 +30,7 @@ float ceil(float value)
 }
 
 // not realy log 10, more like 10^x where val = v * 10^x
-int log10(float value)
+int log10(double value)
 {
     if(value < 0) value *= -1;
     int log = 0;
