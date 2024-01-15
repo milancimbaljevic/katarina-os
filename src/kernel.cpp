@@ -9,6 +9,7 @@
 #include "utils/float.h"
 #include "math/math.h"
 #include "print.h"
+#include "debug/debugcon.h"
 
 void kernel_main()
 {
@@ -17,12 +18,12 @@ void kernel_main()
     // string str1 = "Caoooo\nsta se radii";
     // print(str1.getCharPointer(), str1.size());
 
-    ErrorOr<Heap> kernel_heap = Heap::createHeap((void *)0x01000000, (void *)(0x01000000 + 104857600), 4096, (Heap::HEAP_BLOCK_TABLE_ENTRY *)0x00007E00, 104857600 / 4096);
+    // ErrorOr<Heap> kernel_heap = Heap::createHeap((void *)0x01000000, (void *)(0x01000000 + 104857600), 4096, (Heap::HEAP_BLOCK_TABLE_ENTRY *)0x00007E00, 104857600 / 4096);
 
-    if (kernel_heap.isError())
-    {
-        print(kernel_heap.getErrorMsg().getCharPointer(), kernel_heap.getErrorMsg().size());
-    }
+    // if (kernel_heap.isError())
+    // {
+    //     print(kernel_heap.getErrorMsg().getCharPointer(), kernel_heap.getErrorMsg().size());
+    // }
 
     // char* str1 = (char*) kernel_heap.getRetVal().malloc(8);
     // str1[0] = 'P'; str1[1] = 'o'; str1[2] = 'z'; str1[3] = 'd'; str1[4] = 'r'; str1[5] = 'a'; str1[6] = 'v'; str1[7] = '\0';
@@ -46,16 +47,16 @@ void kernel_main()
     // int i2 = -32;
     // string str4 = StringBuilder::FormatString("Cao {b} ja sam {}", i1, i2);
 
-    float x = 8.5;
-    FloatParts fp = Float::get_float_parts(x);
+    // float x = 8.5;
+    // FloatParts fp = Float::get_float_parts(x);
 
-    // unsigned int fpart = (fi.mantissa << 9) << fp.displacment;
+    // // unsigned int fpart = (fi.mantissa << 9) << fp.displacment;
 
-    string str5 = StringBuilder::FormatString(
-        "sign: {b} \ndisplacment: {} \nwhole_part: {}\nfractional_part : {} \npow_test: {}",
-        fp.sign,
-        fp.displacment, fp.whole_part, 1, 0.0012);
-    print(str5.getCharPointer(), str5.size());
+    // // string str5 = StringBuilder::FormatString(
+    // //     "sign: {b} \ndisplacment: {} \nwhole_part: {}\nfractional_part : {} \npow_test: {}",
+    // //     fp.sign,
+    // //     fp.displacment, fp.whole_part, 1, 0.0012);
+    // // print(str5.getCharPointer(), str5.size());
 
     // print(str4.getCharPointer(), str4.size());
     // print("Marko",5);
@@ -63,9 +64,7 @@ void kernel_main()
     // for(char& c: str3){
     //     print(&c, 1);
     //     print("\n", 1);
-    // }
-
-    outb('A', 0xe9);
+    // }    
 
     while (1)
     {

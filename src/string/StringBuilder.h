@@ -6,6 +6,11 @@
 class StringBuilder
 {
 public:
+    // FIXME : dummy solution, just like rest of the codebase :)
+    static string FormatString(string str){
+        return str;
+    }
+
     template <typename T, typename... Args>
     static string FormatString(string str, T param, Args... args)
     {
