@@ -1,4 +1,5 @@
-FILES = ./build/kernel.asm.o ./build/kernel.o
+FILES = ./build/kernel.asm.o ./build/kernel.o build/memory/heap.o build/string/string.o build/string/StringBuilder.o
+FILES += ./build/debug/debugcon.o ./build/math/math.o ./build/utils/float.o
 
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
@@ -21,6 +22,24 @@ all: ./bin/boot.bin ./bin/kernel.bin
 
 ./build/kernel.o: ./src/kernel.cpp
 	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/kernel.cpp -o build/kernel.o
+
+./build/memory/heap.o: ./src/memory/heap.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/memory/heap.cpp -o build/memory/heap.o
+
+./build/string/string.o: ./src/string/string.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/string/string.cpp -o build/string/string.o
+
+./build/string/StringBuilder.o: ./src/string/StringBuilder.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/string/StringBuilder.cpp -o build/string/StringBuilder.o
+
+./build/debug/debugcon.o: ./src/debug/debugcon.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/debug/debugcon.cpp -o build/debug/debugcon.o
+
+./build/utils/float.o: ./src/utils/float.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/utils/float.cpp -o build/utils/float.o
+
+./build/math/math.o: ./src/math/math.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/math/math.cpp -o build/math/math.o
 
 clean:
 	rm -rf ./bin/boot.bin
