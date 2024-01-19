@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
+
 #include "kernel.h"
 #include "string/string.h"
 #include "memory/heap.h"
@@ -10,6 +11,7 @@
 #include "math/math.h"
 #include "print.h"
 #include "debug/debugcon.h"
+#include "idt/idt.h"
 
 void kernel_main()
 {
@@ -21,6 +23,8 @@ void kernel_main()
         println(kernel_heap.getErrorMsg());
     }
 
+    IDT::Init();
+    IDT::enable_interrupts();
 
     while (1)
     {

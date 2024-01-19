@@ -1,0 +1,4 @@
+#pragma once
+
+#define TOTAL_NUMBER_OF_INTERRUPTS 512
+#define KERNEL_CODE_SELECTOR 0x08
