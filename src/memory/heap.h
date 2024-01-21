@@ -65,10 +65,11 @@ private:
     static bool validateTable(void *start_addr, void *end_addr, HEAP_BLOCK_TABLE_ENTRY *table, size_t block_size, size_t tnoe);
 
     size_t alignSizeToUpper(size_t size) const;
+
 public:
     Heap() = default;
 
+    static Heap *kernel_heap;
     static ErrorOr<Heap> createHeap(void *sa, void *ea, size_t bs, HEAP_BLOCK_TABLE_ENTRY *et, size_t tnoe);
-
     void *malloc(size_t size_in_bytes);
 };

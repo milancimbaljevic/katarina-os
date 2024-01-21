@@ -4,15 +4,26 @@
 #include "IrqHandler.h"
 #include "config.h"
 
-namespace IDT
+#define pushad() asm("pushal")
+#define popad() asm("popal")
+#define cli() asm("cli")
+#define sti() asm("sti")
+
+#define PIC0_CTL 0x20
+#define PIC0_CMD 0x21
+#define PIC1_CTL 0xA0
+#define PIC1_CMD 0xA1
+
+#define IRQ_VECTOR_OFFSET 0x20
+
+namespace PIC
 {
     extern "C" void idt_load(struct idtr_desc *ptr);
-    extern "C" void enable_interrupts();
-    extern "C" void disable_interrupts();
-    extern "C" void int21h();
-    extern "C" void no_interrupt();
-    extern "C" void disable_interrupts();
-
+    void eoi(unsigned char irq);
+    void register_irq(IRQHandler *irq_handler);
+    unsigned short getISR();
+    void initialize();
+    void enable(unsigned char irq);
 
     struct idt_desc
     {

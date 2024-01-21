@@ -53,20 +53,6 @@ void _print(const char *str, size_t len)
     }
 }
 
-template<typename T, typename... Args>
-void print(string str, T t, Args... args){
-    string st = StringBuilder::FormatString(str, t, args...);
-    st = st + '\n';
-    _print(st.getCharPointer(), st.size());
-}
-
-
-template<typename T, typename... Args>
-void println(string str, T t, Args... args){
-    string st = StringBuilder::FormatString(str, t, args...);
-    _print(st.getCharPointer(), st.size());
-}
-
 void println(string st){
     st = st + '\n';
     _print(st.getCharPointer(), st.size());

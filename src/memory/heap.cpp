@@ -1,4 +1,6 @@
 #include "heap.h"
+#include "debug/debugcon.h"
+#include "kernel.h"
 
 bool Heap::validateAlignment(void *addr, size_t block_size)
 {
@@ -83,3 +85,5 @@ void *Heap::malloc(size_t size_in_bytes)
 
     return return_address;
 }
+
+Heap* Heap::kernel_heap = nullptr;
