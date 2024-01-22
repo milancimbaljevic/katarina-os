@@ -1,5 +1,5 @@
 #include "debugcon.h"
-
+#include "print.h"
 void debugln(string st)
 {
     for (char &c : st)

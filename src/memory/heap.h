@@ -43,6 +43,7 @@ public:
     {
         bool is_first = false; // 0 - not first, 1 - first
         bool taken = false;    // 0 - free, 1 - taken
+        bool has_next = false;
     };
 
 private:
@@ -72,4 +73,5 @@ public:
     static Heap *kernel_heap;
     static ErrorOr<Heap> createHeap(void *sa, void *ea, size_t bs, HEAP_BLOCK_TABLE_ENTRY *et, size_t tnoe);
     void *malloc(size_t size_in_bytes);
+    void free(void* mem);
 };

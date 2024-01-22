@@ -1,6 +1,9 @@
 #include "heap.h"
 #include "debug/debugcon.h"
 #include "kernel.h"
+#include "debug/debug.h"
+
+Heap *Heap::kernel_heap = nullptr;
 
 bool Heap::validateAlignment(void *addr, size_t block_size)
 {
@@ -40,6 +43,8 @@ ErrorOr<Heap> Heap::createHeap(void *sa, void *ea, size_t bs, HEAP_BLOCK_TABLE_E
 
 void *Heap::malloc(size_t size_in_bytes)
 {
+    FUNCTION_ENTER(("Heap::malloc"));
+
     size_in_bytes = alignSizeToUpper(size_in_bytes);
 
     // convert size in bytes to size in blocks
@@ -78,12 +83,44 @@ void *Heap::malloc(size_t size_in_bytes)
 
     // mark blocks as taken
     entries_table[start_block].is_first = true;
-    for (size_t i = start_block; i < start_block + size_in_blocks; i++)
+    size_t i;
+    for (i = start_block; i < start_block + size_in_blocks; i++)
     {
         entries_table[i].taken = true;
+        entries_table[i].has_next = true;
     }
+    entries_table[i - 1].has_next = false;
+
+    DEBUGLN(("Allocated {} bytes of memory starting at {}", size_in_blocks * block_size, (unsigned int) return_address));
 
     return return_address;
 }
 
-Heap* Heap::kernel_heap = nullptr;
+void Heap::free(void *mem)
+{
+    FUNCTION_ENTER(("HEAP::free"));
+    
+    size_t heap_block_start = ((int)mem - (int)start_address) / block_size;
+    entries_table[heap_block_start].is_first = false;
+
+    int size_in_block = 0;
+    for (size_t i = heap_block_start; i < total_number_of_table_entries; i++)
+    {
+        if(entries_table[i].is_first) break;
+
+        size_in_block++;
+        entries_table[i].taken = false;
+        
+        if (!entries_table[i].has_next)
+        {
+            break;
+        }
+        entries_table[i].has_next = false;
+    }
+
+    DEBUGLN(("Freed {} bytes of memory starting at {}", size_in_block * block_size, (unsigned int)mem));
+}
+
+// FIXME: i have no idea why is this causing undefined reference issues
+void *__gxx_personality_v0 = 0;
+void *_Unwind_Resume = 0;

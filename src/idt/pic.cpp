@@ -32,7 +32,7 @@ namespace PIC
         popad();
         sti();
     }
-
+    
     void handle_irq()
     {
         cli();

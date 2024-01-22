@@ -5,7 +5,7 @@ FILES += ./build/print.o ./build/timer/IRQTimer.o
 
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
-FLAGS += -fno-rtti -std=c++20 -nostdinc++ -nostdlib #-nostdinc
+FLAGS += -fno-rtti -std=c++20 -nostdinc++ -nostdlib -DDEBUG_ENABLED #-nostdinc
 
 all: ./bin/boot.bin ./bin/kernel.bin
 	rm -rf ./bin/os.bin

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stddef.h>
+
 #include "string.h"
 #include "math/math.h"
 
@@ -63,7 +65,9 @@ public:
     static string to_string_binary(char num);
     static string to_string_binary(unsigned char num);
     static string to_string_binary(float num);
+    static string to_string_binary(size_t num);
     static string to_string_binary(double num);
     static string to_string(double value);
     static string to_string(float value);
+    static string to_string(size_t num);
 };
