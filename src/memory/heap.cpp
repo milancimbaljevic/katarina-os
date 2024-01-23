@@ -91,7 +91,7 @@ void *Heap::malloc(size_t size_in_bytes)
     }
     entries_table[i - 1].has_next = false;
 
-    DEBUGLN(("Allocated {} bytes of memory starting at {}", size_in_blocks * block_size, (unsigned int) return_address));
+    DEBUGLN(("Allocated {} bytes of memory starting at {h}", size_in_blocks * block_size, (unsigned int) return_address));
 
     return return_address;
 }
@@ -118,7 +118,7 @@ void Heap::free(void *mem)
         entries_table[i].has_next = false;
     }
 
-    DEBUGLN(("Freed {} bytes of memory starting at {}", size_in_block * block_size, (unsigned int)mem));
+    DEBUGLN(("Freed {} bytes of memory starting at {h}", size_in_block * block_size, (unsigned int)mem));
 }
 
 // FIXME: i have no idea why is this causing undefined reference issues

@@ -60,6 +60,8 @@ public:
     static string to_string(unsigned int num);
     static string to_string(int _num);
     static string to_string_hex(int num);
+    static string to_string_hex(unsigned int num);
+    static string to_string_hex(long unsigned int num);
     static string to_string_binary(int num);
     static string to_string_binary(unsigned int num);
     static string to_string_binary(char num);

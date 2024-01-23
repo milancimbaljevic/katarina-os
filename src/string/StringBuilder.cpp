@@ -58,11 +58,6 @@ string StringBuilder::to_string(int _num)
     return res.reverse();
 }
 
-string StringBuilder::to_string_hex(int num)
-{
-    return "";
-}
-
 string StringBuilder::to_string_binary(size_t num)
 {
     string res = "32b";
@@ -93,7 +88,6 @@ string StringBuilder::to_string_binary(size_t num)
 
     // return res_without_lead_zeros;
 }
-
 
 string StringBuilder::to_string_binary(int num)
 {
@@ -226,4 +220,40 @@ string StringBuilder::to_string(float value)
     }
 
     return decimalDigits;
+}
+
+char hex_char[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+string StringBuilder::to_string_hex(unsigned int num)
+{
+    string res = "";
+    while (num != 0)
+    {
+        unsigned int x = num % 16;
+        res = res + hex_char[x];
+        num /= 16;
+    }
+    res = res + "x0";
+    return res.reverse();
+}
+
+string StringBuilder::to_string_hex(long unsigned int num)
+{
+    string res = "";
+    while (num != 0)
+    {
+        long unsigned int x = num % 16;
+        res = res + hex_char[x];
+        num /= 16;
+    }
+    res = res + "x0";
+    return res.reverse();
+}
+
+
+string StringBuilder::to_string_hex(int num)
+{
+    if(num < 0) num *= -1;
+    string res = to_string_hex((unsigned int) num);
+    if(num < 0) return string("-") + res;
+    return res;
 }
