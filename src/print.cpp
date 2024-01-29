@@ -1,4 +1,5 @@
 #include "print.h"
+#include "debug/debugcon.h"
 
 uint16_t *video_mem = 0;
 int terminal_col = 0;
@@ -53,12 +54,28 @@ void _print(const char *str, size_t len)
     }
 }
 
-void println(string st){
+void println(string st)
+{
     st = st + '\n';
     _print(st.getCharPointer(), st.size());
 }
 
-
-void print(string st){
+void print(string st)
+{
     _print(st.getCharPointer(), st.size());
+}
+
+void print_ram_in_range_inc(unsigned int start, unsigned int end)
+{
+    for (unsigned int i = start; i <= end; i += 4)
+    {
+        unsigned int *address = (unsigned int *)i;
+        debugln("Address {h} : {h}", i, (unsigned int)(*address));
+    }
+}
+
+void print_value_at_address(unsigned int addr)
+{
+    unsigned int *address = (unsigned int *)addr;
+    debugln("Address {h} : {h}", addr, (unsigned int)(*address));
 }

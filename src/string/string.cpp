@@ -1,4 +1,5 @@
 #include "string.h"
+#include "debug/debugcon.h"
 
 string::string(const char &c)
 {

@@ -3,9 +3,12 @@
 #include "io/sys_io.h"
 #include "print.h"
 #include "debug/debugcon.h"
+#include "InterruptDisabler.h"
 
 #define SLAVE_INDEX 2
 #define IRQ_VECTOR_BASE 0x50
+
+extern "C" void irq_handler_asm();
 
 namespace PIC
 {
@@ -33,10 +36,9 @@ namespace PIC
         sti();
     }
     
-    void handle_irq()
+    extern "C" void handle_irq()
     {
-        cli();
-        pushad();
+        InterruptDisabler disable;
 
         unsigned short isr = PIC::getISR();
         if (!isr)
@@ -59,8 +61,6 @@ namespace PIC
             irq_handlers[irq]->handle_IRQ();
 
         eoi(irq);
-        popad();
-        sti();
     }
 
     unsigned short getISR()
@@ -120,7 +120,7 @@ namespace PIC
         }
         
         for(int i=0x20; i<0x20+16; i++){
-            idt_set(i, (void *)handle_irq);
+            idt_set(i, (void *)irq_handler_asm);
         }
 
         idt_load(&idt_register);

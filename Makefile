@@ -1,11 +1,11 @@
 FILES = ./build/kernel.asm.o ./build/kernel.o build/memory/heap.o build/string/string.o build/string/StringBuilder.o
 FILES += ./build/debug/debugcon.o ./build/math/math.o ./build/utils/float.o
 FILES += ./build/memory/memory.o ./build/idt/idt.asm.o ./build/idt/pic.o ./build/idt/IrqHandler.o
-FILES += ./build/print.o ./build/timer/IRQTimer.o
+FILES += ./build/print.o ./build/timer/IRQTimer.o ./build/paging/paging.asm.o ./build/paging/paging.o
 
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
-FLAGS += -fno-rtti -std=c++20 -nostdinc++ -nostdlib -DDEBUG_ENABLED #-nostdinc
+FLAGS += -fno-rtti -std=c++20 -nostdinc++ -nostdlib # -DDEBUG_ENABLED #-nostdinc
 
 all: ./bin/boot.bin ./bin/kernel.bin
 	rm -rf ./bin/os.bin
@@ -61,6 +61,13 @@ all: ./bin/boot.bin ./bin/kernel.bin
 
 ./build/timer/IRQTimer.o: ./src/timer/IRQTimer.cpp
 	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/timer/IRQTimer.cpp -o ./build/timer/IRQTimer.o
+
+./build/paging/paging.asm.o: ./src/paging/paging.asm
+	nasm -f elf -g ./src/paging/paging.asm -o ./build/paging/paging.asm.o
+
+./build/paging/paging.o: ./src/paging/paging.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/paging/paging.cpp -o ./build/paging/paging.o
+
 
 clean:
 	rm -rf ./bin/boot.bin

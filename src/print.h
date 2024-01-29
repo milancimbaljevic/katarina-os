@@ -30,3 +30,6 @@ void println(string str, T t, Args... args){
 
 void println(string st);
 void print(string st);
+
+void print_ram_in_range_inc(unsigned int start, unsigned int end);
+void print_value_at_address(unsigned int addr);

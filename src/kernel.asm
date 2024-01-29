@@ -5,6 +5,9 @@ CODE_SEG equ 0x08
 DATA_SEG equ 0x10
 
 extern _Z11kernel_mainv
+extern handle_irq
+
+global irq_handler_asm
 
 _start:		; protected mode
 	mov ax, DATA_SEG
@@ -36,5 +39,15 @@ _start:		; protected mode
 	call _Z11kernel_mainv
 
  	jmp $
+
+
+irq_handler_asm:
+	pushad
+	cld    ; C code following the sysV ABI requires DF to be clear on function entry
+	
+	call handle_irq
+	
+	popad
+	iret
 
 times 512-($ - $$) db 0

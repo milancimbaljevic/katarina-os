@@ -225,6 +225,7 @@ string StringBuilder::to_string(float value)
 char hex_char[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 string StringBuilder::to_string_hex(unsigned int num)
 {
+    if(num == 0) return "0x0";
     string res = "";
     while (num != 0)
     {
@@ -238,6 +239,7 @@ string StringBuilder::to_string_hex(unsigned int num)
 
 string StringBuilder::to_string_hex(long unsigned int num)
 {
+    if(num == 0) return "0x0";
     string res = "";
     while (num != 0)
     {

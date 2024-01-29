@@ -85,7 +85,7 @@ load32:
 	mov edi, 0x0100000	; where to load sectors
 	call ata_lba_read
 
-	jmp CODE_SEG:0x0100000
+	jmp CODE_SEG:0x0100000 ; 1MB
 
 ata_lba_read:
 	mov ebx, eax

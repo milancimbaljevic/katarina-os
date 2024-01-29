@@ -1,4 +1,5 @@
 #include "memory.h"
+#include "heap.h"
 
 void* memset(void* ptr, int c, size_t size){
     char* c_ptr = (char*) ptr;
@@ -32,4 +33,28 @@ void* memcpy(void* dest, void* src, int len)
         *d++ = *s++;
     }
     return dest;
+}
+
+void* malloc(size_t size){
+    return Heap::kernel_heap->malloc(size);
+}
+
+void free(void* addr){
+    Heap::kernel_heap->free(addr);
+}
+
+
+void *operator new(size_t size)
+{
+    return malloc(size);
+}
+
+void operator delete(void *memory)
+{
+    free(memory);
+}
+
+void operator delete(void *memory, unsigned long sz)
+{
+    free(memory);
 }

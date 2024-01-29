@@ -28,7 +28,11 @@
 #endif
 
 
-#define FUNCTION_ENTER(x) \
-        print("FUNCTION_ENTER: "); \
-        DEBUGLN(x)
+#ifdef DEBUG_ENABLED
+    #define FUNCTION_ENTER(x) \
+            print("FUNCTION_ENTER: "); \
+            DEBUGLN(x)
+#else
+    #define FUNCTION_ENTER(x)
+#endif
 
