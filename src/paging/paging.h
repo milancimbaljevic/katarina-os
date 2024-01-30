@@ -78,5 +78,12 @@ public:
         }
     }
 
-    ~OneToOnePMT() {}
+    ~OneToOnePMT()
+    {
+        for (int i = 0; i < LEVEL_1_PMT_NUM_OF_ENTRIES; i++)
+        {
+            free((void*)(level1_pmt[i] & 0xfffff000));
+        }
+        free(level1_pmt);
+    }
 };

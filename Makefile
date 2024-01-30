@@ -1,7 +1,7 @@
 FILES = ./build/kernel.asm.o ./build/kernel.o build/memory/heap.o build/string/string.o build/string/StringBuilder.o
 FILES += ./build/debug/debugcon.o ./build/math/math.o ./build/utils/float.o
 FILES += ./build/memory/memory.o ./build/idt/idt.asm.o ./build/idt/pic.o ./build/idt/IrqHandler.o
-FILES += ./build/print.o ./build/timer/IRQTimer.o ./build/paging/paging.asm.o ./build/paging/paging.o
+FILES += ./build/print.o ./build/timer/IRQTimer.o ./build/paging/paging.asm.o ./build/paging/paging.o ./build/disk/disk.o
 
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
@@ -68,6 +68,9 @@ all: ./bin/boot.bin ./bin/kernel.bin
 ./build/paging/paging.o: ./src/paging/paging.cpp
 	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/paging/paging.cpp -o ./build/paging/paging.o
 
+./build/disk/disk.o: ./src/disk/Disk.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/disk/Disk.cpp -o ./build/disk/disk.o
+
 
 clean:
 	rm -rf ./bin/boot.bin
@@ -77,4 +80,4 @@ clean:
 	rm -rf ./build/kernelfull.o
 
 run:
-	qemu-system-i386 -hda ./bin/os.bin -debugcon stdio
+	qemu-system-i386 -s -S -hda ./bin/os.bin -debugcon stdio
