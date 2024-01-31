@@ -15,6 +15,7 @@
 #include "debug/debug.h"
 #include "paging/paging.h"
 #include "disk/Disk.h"
+#include "disk/DiskStream.h"
 
 void kernel_panic()
 {
@@ -79,6 +80,11 @@ void kernel_main()
 
     char* dest = (char*) malloc(master_disk->get_sector_size());
     master_disk->read_sector(0, 1, (void*) dest);
+
+    char* stream_buff = (char*) malloc(50);
+    DiskStream* disk_stream = DiskStream::create_disk_stream(0);  
+    disk_stream->seek(40);  
+    disk_stream->read(stream_buff, 30);
 
     original_pmt->map_virtual_to_physical_address((void*) (0x56785000), 0x10000 | PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITEABLE);
 
