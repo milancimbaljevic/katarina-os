@@ -2,7 +2,7 @@ FILES = ./build/kernel.asm.o ./build/kernel.o build/memory/heap.o build/string/s
 FILES += ./build/debug/debugcon.o ./build/math/math.o ./build/utils/float.o
 FILES += ./build/memory/memory.o ./build/idt/idt.asm.o ./build/idt/pic.o ./build/idt/IrqHandler.o
 FILES += ./build/print.o ./build/timer/IRQTimer.o ./build/paging/paging.asm.o ./build/paging/paging.o ./build/disk/disk.o
-FILES += ./build/disk/DiskStream.o
+FILES += ./build/disk/DiskStream.o ./build/gdt/gdt.asm.o ./build/gdt/gdt.o ./build/task/tss.asm.o ./build/task/task.o
 
 INCLUDES = -I./src
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
@@ -75,6 +75,22 @@ all: ./bin/boot.bin ./bin/kernel.bin
 ./build/disk/DiskStream.o: ./src/disk/DiskStream.cpp
 	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/disk/DiskStream.cpp -o ./build/disk/DiskStream.o
 
+./build/gdt/gdt.o: ./src/gdt/gdt.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/gdt/gdt.cpp -o ./build/gdt/gdt.o
+
+./build/gdt/gdt.asm.o: ./src/gdt/gdt.asm
+	nasm -f elf -g ./src/gdt/gdt.asm -o ./build/gdt/gdt.asm.o
+
+./build/task/tss.asm.o: ./src/task/tss.asm
+	nasm -f elf -g ./src/task/tss.asm -o ./build/task/tss.asm.o
+
+# ./build/task/task.asm.o: ./src/task/task.asm
+# 	nasm -f elf -g ./src/task/task.asm -o ./build/task/task.asm.o
+
+./build/task/task.o: ./src/task/task.cpp
+	i686-elf-g++ $(INCLUDES) $(FLAGS) -c ./src/task/task.cpp -o ./build/task/task.o
+
+
 clean:
 	rm -rf ./bin/boot.bin
 	rm -rf ./bin/kernel.bin
@@ -83,4 +99,4 @@ clean:
 	rm -rf ./build/kernelfull.o
 
 run:
-	qemu-system-i386 -s -S -hda ./bin/os.bin -debugcon stdio
+	qemu-system-i386 -hda ./bin/os.bin -debugcon stdio # -s S

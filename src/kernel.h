@@ -1,7 +1,6 @@
-#ifndef KERNEL_H
-#define KERNEL_H
+#pragma once
+
+#include "string/string.h"
 
 void kernel_main();
-void kernel_panic();
-
-#endif
+void kernel_panic(string msg);

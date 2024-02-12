@@ -23,7 +23,7 @@ protected:
     uint32_t *level1_pmt = nullptr;
 
 public:
-    virtual void init(uint8_t flags = PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITEABLE) = 0;
+    virtual void init(uint8_t flags = (uint8_t)(PAGING_ACCESS_FROM_ALL | PAGING_IS_PRESENT | PAGING_IS_WRITEABLE)) = 0;
     bool is_paging_aligned(void *addr) { return (((uint32_t)addr % PAGE_SIZE) == 0); }
     void load_me_into_pmtr()
     {
@@ -56,7 +56,14 @@ public:
     }
 
     static PageMapTable *current_page_map_table;
-    virtual ~PageMapTable() {}
+    virtual ~PageMapTable()
+    {
+        for (int i = 0; i < LEVEL_1_PMT_NUM_OF_ENTRIES; i++)
+        {
+            free((void *)(level1_pmt[i] & 0xfffff000));
+        }
+        free(level1_pmt);
+    }
 };
 
 class OneToOnePMT : public PageMapTable
@@ -76,14 +83,5 @@ public:
             offset += PAGE_SIZE * LEVEL_1_PMT_NUM_OF_ENTRIES;
             level1_pmt[i] = (uint32_t)level2_pmt | flags | PAGING_IS_WRITEABLE;
         }
-    }
-
-    ~OneToOnePMT()
-    {
-        for (int i = 0; i < LEVEL_1_PMT_NUM_OF_ENTRIES; i++)
-        {
-            free((void*)(level1_pmt[i] & 0xfffff000));
-        }
-        free(level1_pmt);
     }
 };
