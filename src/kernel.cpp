@@ -20,6 +20,7 @@
 #include "config.h"
 #include "task/tss.h"
 #include "task/task.h"
+#include "ds/vector.h"
 
 void kernel_panic(string msg)
 {
@@ -28,6 +29,15 @@ void kernel_panic(string msg)
     {
     }
 }
+
+class Test
+{
+public:
+int i = 0;
+    Test(int i){
+        this->i = i;
+    }
+};
 
 // class NewOperatorTest
 // {
@@ -133,6 +143,15 @@ void kernel_main()
 
     // print_ram_in_range_inc(0x7c00, 0x7c00 + 515);
     // print_value_at_address(0x100000);
+
+    vector<Test> vec1(50);
+    for(int i = 0; i<30; i++){
+        vec1.push_back(Test(i));
+    }
+
+    for(Test x : vec1){
+        print("{}, ", x.i);
+    }
 
     sti();
     while (1)
