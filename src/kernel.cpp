@@ -21,6 +21,7 @@
 #include "task/tss.h"
 #include "task/task.h"
 #include "ds/vector.h"
+#include "mbr/mbr_reader.h"
 
 void kernel_panic(string msg)
 {
@@ -144,14 +145,8 @@ void kernel_main()
     // print_ram_in_range_inc(0x7c00, 0x7c00 + 515);
     // print_value_at_address(0x100000);
 
-    vector<Test> vec1(50);
-    for(int i = 0; i<30; i++){
-        vec1.push_back(Test(i));
-    }
 
-    for(Test x : vec1){
-        print("{}, ", x.i);
-    }
+    MBR_Reader::Init();
 
     sti();
     while (1)

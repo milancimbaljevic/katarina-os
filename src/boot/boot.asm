@@ -8,28 +8,28 @@ _start:
     jmp short start
     nop
 
-; FAT16 Header
-OEMIdentifier           db 'KATARINA'
-BytesPerSector          dw 0x200
-SectorsPerCluster       db 0x80
-ReservedSectors         dw 200
-FATCopies               db 0x02
-RootDirEntries          dw 0x40
-NumSectors              dw 0x00
-MediaType               db 0xF8
-SectorsPerFat           dw 0x100
-SectorsPerTrack         dw 0x20
-NumberOfHeads           dw 0x40
-HiddenSectors           dd 0x00
-SectorsBig              dd 0x773594
+; ; FAT16 Header
+; OEMIdentifier           db 'KATARINA'
+; BytesPerSector          dw 0x200
+; SectorsPerCluster       db 0x80
+; ReservedSectors         dw 200
+; FATCopies               db 0x02
+; RootDirEntries          dw 0x40
+; NumSectors              dw 0x00
+; MediaType               db 0xF8
+; SectorsPerFat           dw 0x100
+; SectorsPerTrack         dw 0x20
+; NumberOfHeads           dw 0x40
+; HiddenSectors           dd 0x00
+; SectorsBig              dd 0x773594
 
-; Extended BPB (Dos 4.0)
-DriveNumber             db 0x80
-WinNTBit                db 0x00
-Signature               db 0x29
-VolumeID                dd 0xD105
-VolumeIDString          db 'KATARINABOO'
-SystemIDString          db 'FAT16   '
+; ; Extended BPB (Dos 4.0)
+; DriveNumber             db 0x80
+; WinNTBit                db 0x00
+; Signature               db 0x29
+; VolumeID                dd 0xD105
+; VolumeIDString          db 'KATARINABOO'
+; SystemIDString          db 'FAT16   '
     
 
 start:
@@ -141,5 +141,83 @@ ata_lba_read:
 	; End of reading sectors into memory
 	ret
 
-times 510 - ($ - $$) db 0
+times 446 - ($ - $$) db 0
+
+
+; MBR partition table
+
+db 0		; BootFlag
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0x0B		; TypeCode
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0xF4		; LBABegin 1f4h = 500d
+db 0x01		; LBABegin
+db 0x0		; LBABegin
+db 0x0		; LBABegin
+db 0x00		; NumberOfSectors
+db 0xA0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+
+db 0		; BootFlag
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0x0B		; TypeCode
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0xF4		; LBABegin 1f4h = 500d
+db 0x01		; LBABegin
+db 0x0		; LBABegin
+db 0x0		; LBABegin
+db 0x00		; NumberOfSectors
+db 0xA0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+
+db 0		; BootFlag
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0x0B		; TypeCode
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0xF4		; LBABegin 1f4h = 500d
+db 0x01		; LBABegin
+db 0x0		; LBABegin
+db 0x0		; LBABegin
+db 0x00		; NumberOfSectors
+db 0xA0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+
+db 0		; BootFlag
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0		; CHSBegin
+db 0x0B		; TypeCode
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0		; CHSEnd
+db 0xF4		; LBABegin 1f4h = 500d
+db 0x01		; LBABegin
+db 0x0		; LBABegin
+db 0x0		; LBABegin
+db 0x00		; NumberOfSectors
+db 0xA0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+db 0x0		; NumberOfSectors
+
 dw 0xAA55
+
+
+
+
+
+
